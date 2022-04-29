@@ -11,3 +11,10 @@ Inorder   -> (Left, Root, Right)
 Preorder  -> (Root, Left, Right)
 Postorder -> (Left, Right, Root)
 0101: 解けなかった. t1.leftとt2.right, t1.rightとt2.leftを比較.
+0141: O(1)で解けなかった. NodeごとSetで詰めればO(N)の実装は楽. O(1)は1個進むポインターと2個進むポインターを作って, 衝突したらループ
+0155: 解けなかった. Stackの実装.
+0160: 解けなかった. SpaceのO(N)解法 -> SetにheadAのNode詰めて, headBの中に同じNodeがあったらそれを返す. SpaceのO(1)解法 -> headAとheadB同時にずらして、最後までいったらheadB, headAにして繰り返す.
+0169: 解けなかった. 候補を配列の1番目, cnt=1として持ち, 候補と一致してるかどうかでcntを増減させる. cntが0だった時, 候補を変える.
+0206: 解けなかった. tailまでいって, head.nextをtailじゃなくprevに変える.
+0226: 解けなかった. leftとrightを入れ替えて再帰.
+0234: 解けなかった. 半分進めてreversed_listのポインターを作り, 残りの半分をslowとreversed_listで比較する.
