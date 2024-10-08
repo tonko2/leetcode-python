@@ -1,7 +1,7 @@
 class Solution:
     def reverseVowels(self, s: str) -> str:
         s_list = list(s)
-        vowels = ['a', 'e', 'i', 'o', 'u']
+        vowels = ["a", "e", "i", "o", "u"]
         vowelPos = []
         for i, c in enumerate(s):
             if c.lower() in vowels:
