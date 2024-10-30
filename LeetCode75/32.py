@@ -11,5 +11,5 @@ class Solution:
             head = head.next
         ans = 0
         for i in range(len(A) // 2):
-            ans = max(ans, A[i] + A[len(A) - 1 - i])
+            ans = max(ans, A[i] + A[len(A) - 1])
         return ans
