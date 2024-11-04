@@ -1,12 +1,30 @@
+from collections import deque
+
 class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        count = [0] * (10 ** 5)
-        for num in nums:
-            count[num + 10 ** 4] += 1
-        for i in range(10 ** 5, -1, -1):
-            if count[i] > 0:
-                k -= 1
-                count[i] -= 1
-            if k == 0:
-                return i + 10 ** 4
-            
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        M = len(grid)
+        N = len(grid[0])
+        ans = 0
+        q = deque()
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == 2:
+                    q.append(((j, i), 0))
+        X = [1, 0, -1, 0]
+        Y = [0, 1, 0, -1]
+        while q:
+            (x, y), cnt = q.popleft()
+            ans = max(ans, cnt)
+            for i in range(4):
+                nx = x + X[i]
+                ny = y + Y[i]
+                if nx < 0 or ny < 0 or nx >= N or ny >= M or grid[ny][nx] != 1:
+                    continue
+                grid[ny][nx] = 2
+                q.append(((nx, ny), cnt + 1))
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == 1:
+                    return -1
+        return ans
+        

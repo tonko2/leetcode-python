@@ -1,17 +1,19 @@
+from collections import deque
+
 class Solution:
-    def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        N = len(isConnected)
-        visited = [False] * N
-        def dfs(node):
-            if visited[node]:
-                return
-            visited[node] = True
-            for i, connected in enumerate(isConnected[node]):
-                if connected:
-                    dfs(i)
-        ans = 0
-        for i in range(N):
-            if visited[i] == False:
-                dfs(i)
-                ans += 1
-        return ans
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        N = len(rooms)
+        visited = [False] * N        
+        q = deque()
+        q.append(0)
+        count = 0
+        while q:
+            room = q.pop()
+            if visited[room]:
+                continue
+            visited[room] = True
+            count += 1
+            for nextRoom in rooms[room]:
+                q.append(nextRoom)
+        return count == N
+            

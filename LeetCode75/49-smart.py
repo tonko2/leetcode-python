@@ -1,17 +1,13 @@
-class SmallestInfiniteSet:
-    def __init__(self):
-        self.cur = 1
-        self.s = set()
+import heapq
 
-    def popSmallest(self):
-        if self.s:
-            res = min(self.s)
-            self.s.remove(res)
-            return res
-        else:
-            self.cur += 1
-            return self.cur - 1
-
-    def addBack(self, num):
-        if self.cur > num:
-            self.s.add(num) 
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        heap = nums[:k]
+        heapq.heapify(heap)
+        
+        for num in nums[k:]:
+            if num > heap[0]:
+                heapq.heappop(heap)
+                heapq.heappush(heap, num)
+        
+        return heap[0]
