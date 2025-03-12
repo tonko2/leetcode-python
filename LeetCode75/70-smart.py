@@ -1,32 +1,33 @@
 class TrieNode:
     def __init__(self):
-        self.children = {}
-        self.isEnd = False
+        self.children = {}        
+        self.suggestions = []
         
 class Trie:
     def __init__(self):
         self.root = TrieNode()
-        
-    def insert(self, word: str) -> None:
-        curr = self.root
-        for c in word:
-            if c not in curr.children:
-                curr.children[c] = TrieNode()
-            curr = curr.children[c]
-        curr.isEnd = True
     
-    def search(self, word: str) -> bool:
-        curr = self.root
+    def insert(self, word):
+        node = self.root
         for c in word:
-            if c not in curr.children:
-                return False
-            curr = curr.children[c]
-        return curr.isEnd
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+            if len(node.suggestions) < 3:
+                node.suggestions.append(word)            
     
-    def startsWith(self, prefix: str) -> bool:
-        curr = self.root
-        for c in prefix:
-            if c not in curr.children:
-                return False
-            curr = curr.children[c]
-        return True
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products.sort()
+        trie = Trie()
+        for product in products:
+            trie.insert(product)
+        ans = []
+        node = trie.root
+        for c in searchWord:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+            ans.append(node.suggestions)                         
+            
+        return ans
