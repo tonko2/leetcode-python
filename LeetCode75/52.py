@@ -2,55 +2,39 @@ import heapq
 
 class Solution:
     def totalCost(self, costs: List[int], k: int, candidates: int) -> int:
-        leftHeap = []
-        rightHeap = []
-        N = len(costs)
-        left, right = 0, N - 1
-        
-        for i in range(min(N, candidates)):
-            heapq.heappush(leftHeap, costs[i])
-            left += 1
-        
-        for i in range(N - 1, -1, -1):
-            if len(rightHeap) == candidates:
-                break
-            if left >= right:
-                break
-            heapq.heappush(rightHeap, costs[i])
-            right -= 1
+        left_heap = []
+        right_heap = []
+        n = len(costs)
+        left = candidates - 1
+        right = n - 1
         ans = 0
-        while k:          
-            if not leftHeap:
-                ans += heapq.heappop(rightHeap)
-                if left <= right:
-                    heapq.heappush(rightHeap, costs[right])
-                    right -= 1
-            elif not rightHeap:
-                ans += heapq.heappop(leftHeap)
-                if left <= right:
-                    heapq.heappush(leftHeap, costs[left])
+        for i in range(candidates):
+            heapq.heappush(left_heap, costs[i])
+        for i in range(candidates):
+            if n - 1 - i <= left:
+                break
+            right = n - 1 - i
+            heapq.heappush(right_heap, costs[n - 1 - i])        
+        while k:            
+            if len(left_heap) == 0 and len(right_heap) == 0:
+                break
+            if len(left_heap) == 0:
+                ans += sum(heapq.nsmallest(k, right_heap))
+                break
+            if len(right_heap) == 0:
+                ans += sum(heapq.nsmallest(k, left_heap))
+                break
+            if left_heap[0] <= right_heap[0]:
+                ans += heapq.heappop(left_heap)
+                if left + 1 < right:
                     left += 1
+                    heapq.heappush(left_heap, costs[left])
             else:
-                if leftHeap[0] < rightHeap[0]:
-                    ans += heapq.heappop(leftHeap)
-                    if left <= right:
-                        heapq.heappush(leftHeap, costs[left])
-                        left += 1
-                elif leftHeap[0] > rightHeap[0]:
-                    ans += heapq.heappop(rightHeap)
-                    if left <= right:
-                        heapq.heappush(rightHeap, costs[right])
-                        right -= 1
-                else:
-                    if costs[left] < costs[right]:
-                        ans += heapq.heappop(leftHeap)
-                        if left <= right:                        
-                          heapq.heappush(leftHeap, costs[left])
-                          left += 1
-                    else:
-                        ans += heapq.heappop(rightHeap)
-                        if left <= right:
-                            heapq.heappush(rightHeap, costs[right])
-                            right -= 1
-            k -= 1            
+                ans += heapq.heappop(right_heap)
+                if left < right - 1:
+                    right -= 1
+                    heapq.heappush(right_heap, costs[right])
+            k -= 1
         return ans
+        
+        
